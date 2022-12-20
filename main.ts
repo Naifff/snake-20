@@ -27,6 +27,7 @@ buttonClicks.onButtonDown(buttonClicks.AorB.A, function () {
 })
 function move () {
     sync()
+    basic.pause(1000)
     for (let index = 0; index <= snake.length - 2; index++) {
         snake[index + 1].set(LedSpriteProperty.Direction, list[index])
     }
@@ -43,11 +44,10 @@ function move () {
             snake[index].move(1)
         }
     }
-    basic.pause(1000)
 }
 let list: number[] = []
 let snake: game.LedSprite[] = []
-snake = [game.createSprite(2, 2), game.createSprite(1, 2), game.createSprite(0, 2)]
+snake = [game.createSprite(2, 2)]
 basic.forever(function () {
     move()
 })
