@@ -14,6 +14,19 @@ function sync () {
         list[index] = snake[index].get(LedSpriteProperty.Direction)
     }
 }
+function newFood () {
+    food.set(LedSpriteProperty.X, randint(0, 4))
+    food.set(LedSpriteProperty.Y, randint(0, 4))
+    ok = 0
+    for (let index = 0; index <= snake.length - 1; index++) {
+        if (food.isTouching(snake[index])) {
+            ok += 1
+        }
+    }
+    if (ok != 0) {
+        newFood()
+    }
+}
 buttonClicks.onButtonDown(buttonClicks.AorB.A, function () {
     if (snake[0].get(LedSpriteProperty.Direction) == 90) {
         snake[0].turn(Direction.Right, 90)
@@ -44,10 +57,18 @@ function move () {
             snake[index].move(1)
         }
     }
+    if (food.isTouching(snake[0])) {
+        snake.unshift(game.createSprite(food.get(LedSpriteProperty.X), food.get(LedSpriteProperty.Y)))
+        newFood()
+    }
 }
+let ok = 0
 let list: number[] = []
+let food: game.LedSprite = null
 let snake: game.LedSprite[] = []
 snake = [game.createSprite(2, 2)]
+food = game.createSprite(2, 2)
+newFood()
 basic.forever(function () {
     move()
 })
